@@ -69,6 +69,19 @@
         max-height: calc(100% - 200px);
         overflow-y: auto;
     }
+
+    .resetMap {
+        position: absolute;
+        top: 10px;
+        left: 180px;
+        width: 100px;
+        background-color: white;
+        border: 1px solid rgb(211, 211, 211);
+        border-radius: 3px;
+        cursor: pointer;
+        padding: 10px;
+        text-align: center;
+    }
 </style>
 
 <body>
@@ -83,6 +96,9 @@
         <div id="info"></div>
         <div id="directions"></div>
     </div>
+
+    <div class="resetMap">Reset map</div>
+
     <script type="text/javascript">
 
         let circle;
@@ -100,9 +116,14 @@
         const drivers = [];
         const driverNames = [];
         const allMarkers = [];
+        let searchMarker;
         const driverMarkers = [];
         const markersInPoly = [];
         let counts = {};
+
+        const mapCenter = { lat: 40.7974411171587, lng: -73.21148068539648 }
+        const mapZoom = 9
+
         const colorArray = ['FF6633', 'FFB399', 'FF33FF', 'FFFF99', '00B3E6',
             'E6B333', '3366E6', '999966', '99FF99', 'B34D4D',
             '80B300', '809900', 'E6B3B3', '6680B3', '66991A',
@@ -124,8 +145,8 @@
         function initMap() {
 
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 9,
-                center: { lat: 40.7974411171587, lng: -73.21148068539648 },
+                zoom: mapZoom,
+                center: mapCenter,
                 mapTypeId: google.maps.MapTypeId.HYBRID
             });
             var infowindow = new google.maps.InfoWindow();
@@ -135,23 +156,29 @@
 
             function addMarker(pin, color) {
 
+
+                const icon = {
+                    url: "icons/sun.png", // url
+                    scaledSize: new google.maps.Size(50, 50), // size
+                };
+
                 const marker = new google.maps.Marker({
                     position: { lng: +pin.lng, lat: +pin.lat },
                     map: map,
                     //options: pin,
-                    //icon: pinImage,
+                    icon: icon,
                 });
 
                 marker.addListener('mouseover', function () { });
                 marker.addListener('mouseout', function () { });
 
                 marker.addListener("click", e => {
-                    console.log('pin', pin);
                     const content = `
                     <div>
-                        <h3>${pin.Name} </h3>
-                        <div class="list">Address:  ${pin['City']}, ${pin['Address']}</div>
-                        
+                        <h3> 
+                        ${pin['Address']}, 
+                        ${pin['City']}, 
+                        ${pin['Panel Location']}</h3>
                     </div>`
                     infowindow.setContent(content);
                     infowindow.open(map, marker);
@@ -179,7 +206,7 @@
 
                 const image =
                     "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
-                const beachMarker = new google.maps.Marker({
+                searchMarker = new google.maps.Marker({
                     position: loc,
                     map,
                     icon: image,
@@ -259,12 +286,20 @@
             if (e.target.classList.contains("removeDirections")) {
                 document.getElementById('directions').innerHTML = '';
             }
+
+            if (e.target.classList.contains("resetMap")) {
+
+                if (searchMarker) searchMarker.setMap(null)
+                allMarkers.forEach(marker => marker.setMap(null)) // clear prev markers
+                map.setCenter(mapCenter)
+                map.setZoom(mapZoom)
+            }
         })
 
     </script>
 
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjxBU2Rmj9czK28LqDbXvQIp5ccel9iwE&callback=initMap&libraries=places,drawing,geometry&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHciQqNJbtjJTtk_Sqgc6V8JWAIvpZmSc&callback=initMap&libraries=places,drawing,geometry&v=weekly"
         async></script>
 </body>
 
