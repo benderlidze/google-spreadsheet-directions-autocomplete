@@ -53,10 +53,11 @@
 
     #searchTextField {
         position: absolute;
-        top: 60px;
-        font-size: 1.5em;
+        top: 110px;
+        font-size: 1.1em;
         z-index: 1000;
         left: 10px;
+        padding:5px;
     }
 
     #pannel {
@@ -72,9 +73,9 @@
 
     #numberOfSearchResults {
         position: absolute;
-        top: 100px;
+        top: 60px;
         left: 10px;
-        width: 300px;
+        
         background-color: white;
         padding: 10px;
     }
@@ -94,15 +95,15 @@
 </style>
 
 <body>
-    <input id="searchTextField" type="text" size="25">
     <div id="map" style="width: 100%; height: 100%;"></div>
-
+    
     <div id="numberOfSearchResults">
         Number of results:
         <label for="r3"><input type="radio" id="r3" value="3" name="results" checked />3</label>
         <label for="r5"><input type="radio" id="r5" value="5" name="results" />5</label>
-
     </div>
+    <input id="searchTextField" type="text" size="25">
+
     <div id="pannel">
         <div id="info"></div>
         <div id="directions"></div>
