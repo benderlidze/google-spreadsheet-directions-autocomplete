@@ -85,10 +85,6 @@
 </style>
 
 <body>
-    <div id="modal">
-        <div class="close" id="close"></div>
-        <div id="modalContent"></div>
-    </div>
     <input id="searchTextField" type="text" size="25">
     <div id="map" style="width: 100%; height: 100%;"></div>
 
@@ -110,9 +106,8 @@
         var input = document.getElementById('searchTextField');
         const pannel = document.getElementById("pannel")
         const info = document.getElementById("info")
-        const close = document.getElementById("close")
         const modal = document.getElementById("modal")
-        const modalContent = document.getElementById("modalContent")
+        
         const drivers = [];
         const driverNames = [];
         const allMarkers = [];
@@ -123,18 +118,6 @@
 
         const mapCenter = { lat: 40.7974411171587, lng: -73.21148068539648 }
         const mapZoom = 9
-
-        const colorArray = ['FF6633', 'FFB399', 'FF33FF', 'FFFF99', '00B3E6',
-            'E6B333', '3366E6', '999966', '99FF99', 'B34D4D',
-            '80B300', '809900', 'E6B3B3', '6680B3', '66991A',
-            'FF99E6', 'CCFF1A', 'FF1A66', 'E6331A', '33FFCC',
-            '66994D', 'B366CC', '4D8000', 'B33300', 'CC80CC',
-            '66664D', '991AFF', 'E666FF', '4DB3FF', '1AB399',
-            'E666B3', '33991A', 'CC9999', 'B3B31A', '00E680',
-            '4D8066', '809980', 'E6FF80', '1AFF33', '999933',
-            'FF3380', 'CCCC00', '66E64D', '4D80CC', '9900B3',
-            'E64D66', '4DB380', 'FF4D4D', '99E6E6', '6666FF'];
-
 
         d3.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQxSt45Xs3dzFsxnRby2Ox8S8HxnqB68zxZKiMfQKbl22Hv0EJq1cVj-DvaSgUSogjP-wyTeywIED4k/pub?output=csv")
             .then(i => {
@@ -191,7 +174,6 @@
 
 
             var options = {
-                // types: ['(cities)'],
                 componentRestrictions: { country: "us" }
             };
 
@@ -228,8 +210,6 @@
                 const closest = points.sort((a, b) => {
                     return a.distance - b.distance
                 }).slice(0, 5)
-
-                console.log('closest', closest);
 
                 const infoContent = closest.map(row => {
                     text = `
@@ -278,6 +258,7 @@
 
         document.addEventListener("click", e => {
             console.log('e.target', e.target);
+
             if (e.target.classList.contains("item")) {
                 const data = e.target.dataset.address
                 console.log('data', data);
@@ -293,6 +274,9 @@
                 allMarkers.forEach(marker => marker.setMap(null)) // clear prev markers
                 map.setCenter(mapCenter)
                 map.setZoom(mapZoom)
+
+                pannel.style.display = 'none'
+                input.value = '';
             }
         })
     </script>
