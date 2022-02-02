@@ -153,6 +153,10 @@
                 mapTypeId: google.maps.MapTypeId.HYBRID
             });
             var infowindow = new google.maps.InfoWindow();
+            const icon = {
+                url: "icons/sun.png", // url
+                scaledSize: new google.maps.Size(50, 50), // size
+            };
 
             d3.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQn2t8Zf3dpIoUcGryqMozCqxnmV2uOa8j2fhrJWsAtVZBRMXgFQ-jKAvvv650OE19wUWsVlH0StmkV/pub?gid=1747814975&single=true&output=csv")
                 .then(locations => {
@@ -162,7 +166,8 @@
                     // Add some markers to the map.
                     const markers = locations.map((data) => {
                         const marker = new google.maps.Marker({
-                            position: { lat: +data.lat, lng: +data.lng }
+                            position: { lat: +data.lat, lng: +data.lng },
+                            icon: icon,
                         });
                         // markers can only be keyboard focusable when they have click listeners
                         // open info window when marker is clicked
