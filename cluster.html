@@ -254,7 +254,6 @@
                 })
 
                 const number = +document.querySelector('input[name="results"]:checked').value
-                console.log('number@@@@', number);
                 const closest = points.sort((a, b) => {
                     return a.distance - b.distance
                 }).slice(0, number)

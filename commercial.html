@@ -42,7 +42,7 @@
 
 
             map.loadImage(
-                'icons/sun.png',
+                'icons/sun_blue.png',
                 (error, image) => {
                     if (error) throw error;
                     // Add the image to the map style.
@@ -61,12 +61,12 @@
                     "type": "FeatureCollection",
                     "features": []
                 },
-                cluster: false,
+                cluster: true,
                 clusterMaxZoom: 14, // Max zoom to cluster points on
                 clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
             });
 
-            d3.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQn2t8Zf3dpIoUcGryqMozCqxnmV2uOa8j2fhrJWsAtVZBRMXgFQ-jKAvvv650OE19wUWsVlH0StmkV/pub?gid=1747814975&single=true&output=csv")
+            d3.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQNW-FK1xyXrRMPzjYK4iNps2nSG8WN5MsSlfAeacmewrvJMagc7-L8Av7l4G9s1eJyz_RPu3HzeK9l/pub?output=csv")
                 .then(locations => {
 
                     console.log('locations', locations);
@@ -128,18 +128,18 @@
                 }
             });
 
-            // map.addLayer({
-            //     id: 'unclustered-point',
-            //     type: 'circle',
-            //     source: 'earthquakes',
-            //     filter: ['!', ['has', 'point_count']],
-            //     paint: {
-            //         'circle-color': '#11b4da',
-            //         'circle-radius': 4,
-            //         'circle-stroke-width': 1,
-            //         'circle-stroke-color': '#fff'
-            //     }
-            // });
+            map.addLayer({
+                id: 'unclustered-point',
+                type: 'circle',
+                source: 'earthquakes',
+                filter: ['!', ['has', 'point_count']],
+                paint: {
+                    'circle-color': '#11b4da',
+                    'circle-radius': 4,
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': '#fff'
+                }
+            });
 
 
             map.addLayer({
@@ -180,9 +180,6 @@
             // map.on('click', 'unclustered-point', (e) => {
             //     const coordinates = e.features[0].geometry.coordinates.slice();
             //     const mag = e.features[0].properties.mag;
-            //     const tsunami =
-            //         e.features[0].properties.tsunami === 1 ? 'yes' : 'no';
-
             //     // Ensure that if the map is zoomed out such that
             //     // multiple copies of the feature are visible, the
             //     // popup appears over the copy being pointed to.
@@ -193,7 +190,7 @@
             //     new mapboxgl.Popup()
             //         .setLngLat(coordinates)
             //         .setHTML(
-            //             `magnitude: ${mag}<br>Was there a tsunami?: ${tsunami}`
+            //             ``
             //         )
             //         .addTo(map);
             // });
